@@ -1,0 +1,116 @@
+@(Central Object/Interactor/Application)
+Renardo = {
+    Behaviour = {
+        name : suite receiver
+        action : receive pseudo-random suite of N[2-6] numbers
+        sequence : 1
+        data = {
+           input : suite of N numbers
+           producer : Moderator (external/API)
+           output : valid suite of 6 numbers
+           consumer : Renardo (internal)
+        }
+    },
+    Behaviour = {
+        name : pseudo-random target receiver
+        action : receive a pseudo-random number between 100 and 999
+                 this is the number we will compute
+        sequence : 1
+        data = {
+           input : a pseudo-random number between [100-999]
+           producer : Moderator (external/API)
+           output : valid pseudo-random number
+           consumer : Renardo (internal)
+        }
+    },
+    Behaviour = {
+        name : game session starter
+        action : start a game session
+        sequence : 2
+        data = {
+           input : none
+           producer : Renardo (internal)
+           output : a flag/event
+           consumer : Players and Moderator (external/API)
+        }
+    },
+    Behaviour = {
+        name : calculator
+        action : perform a series of arithmetic operations on the valid suite in order to
+                 get the closest number (actual computation) to the expected computation
+        sequence : 3
+        data = {
+           input : valid suite and valid target
+           producer : Renardo (internal)
+           output : actual computation
+           consumer : Renardo (internal)
+        }
+    },
+    Behaviour = {
+        name : computation builder
+        action : build all the series of arithmetic operations that lead to the actual computation
+        sequence : 4
+        data = {
+           input : valid suite and actual target
+           producer : Renardo (internal)
+           output : list of actual computations
+           consumer : Moderator (external/API)
+        }
+    },
+    Behaviour = {
+        name : computation receiver
+        action : receive computations from players
+        sequence : 4
+        data = {
+           input : players' computations
+           producer : Players (external/API)
+           output : valid players' computations
+           consumer : Renardo (internal)
+        }
+    },
+    Behaviour = {
+        name : game session terminator
+        action : terminate a game session 
+        sequence : 5
+        data = {
+           input : none
+           producer : Renardo (internal)
+           output : a flag/event
+           consumer : Moderator and Players (external/API)
+        }
+    },
+    Behaviour = {
+        name : result evaluator
+        action : compare players' results to the actual computation  
+        sequence : 5
+        data = {
+           input : valid players' computations
+           producer : Renardo (internal)
+           output : an evaluation message
+           consumer : Renardo (internal)
+        }
+    },
+    Behaviour = {
+        name : winner designator
+        action : designate the winner of the game
+        sequence : 6
+        data = {
+           input : an evaluation message
+           producer : Renardo (internal)
+           output : a winner message
+           consumer : Moderator and Players (external/API)
+        }
+    },
+    Behaviour = {
+        name : score manager
+        action : update players' scores 
+        sequence : 6
+        data = {
+           input : an evaluation message
+           producer : Renardo (internal)
+           output : a score update message
+           consumer : Moderator and Players (external/API)
+        }
+    },
+
+}
