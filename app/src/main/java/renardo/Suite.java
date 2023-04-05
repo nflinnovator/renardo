@@ -4,64 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Suite {
+    private final int[] value;
+    private Calculation calculation;
 
-    private int[] value;
-
-    private Suite(int[] value) {
+    Suite(int[] value) {
         this.value = value;
+
     }
 
-    static Suite of(int[] value) {
-        return new Suite(value);
+    void calculate() {
+        selectMode();
+        calculation.perform();
     }
 
-    int[] calculate() {
-        return validate(Calculation.of(value).perform());
-        // return value.length == 2 ? BasicCalculation.of(value).perform()
-        // GenericCalculation.of(value).perform();
+    private void selectMode() {
+        calculation = value.length == 2 ? new BasicCalculation(value) : new GenericCalculation(value);
     }
 
-    private int[] validate(int[] resultWithNoDuplicates) {
-        List<Integer> validResultList = new ArrayList<>();
-        for (int i = 0; i < resultWithNoDuplicates.length; i++) {
-            if (resultWithNoDuplicates[i] > 99 && resultWithNoDuplicates[i] < 1000)
-                validResultList.add(resultWithNoDuplicates[i]);
+    int[] getValues() {
+        List<Integer> listOfValues = new ArrayList<>();
+        for (Operand each : calculation.getResults()) {
+            if (each.getValue() > 99 && each.getValue() < 1000)
+                listOfValues.add(each.getValue());
         }
-        return RenardoUtil.fromList(validResultList);
+        int[] results = RenardoUtil.toIntegerArray(listOfValues);
+        return results;
     }
 
-    /*
-     * @Override
-     * public boolean equals(Object o) {
-     * if (this == o)
-     * return true;
-     * if (o == null)
-     * return false;
-     * if (!(o instanceof Suite))
-     * return false;
-     * if (this.getClass() != o.getClass())
-     * return false;
-     * Suite suite = (Suite) o;
-     * sort(this.value);
-     * sort(suite.value);
-     * if (this.calculation != null)
-     * sort(this.calculation);
-     * if (suite.calculation != null)
-     * sort(suite.calculation);
-     * return Arrays.equals(this.value, suite.value)
-     * && Arrays.equals(this.calculation, suite.calculation);
-     * }
-     * 
-     * @Override
-     * public int hashCode() {
-     * return 7 * this.value.hashCode() + 9 * this.calculation.hashCode();
-     * }
-     * 
-     * @Override
-     * public String toString() {
-     * return "Suite Value : " + this.value + "\n" + "Suite Calculation : " +
-     * this.calculation;
-     * }
-     */
+    String[] getOperations() {
+        List<String> listOfOperations = new ArrayList<>();
+        for (Operand each : calculation.getResults()) {
+            if (each.getValue() > 99 && each.getValue() < 1000)
+                listOfOperations.add(each.getOperation());
+        }
+        String[] operations = RenardoUtil.toStringArray(listOfOperations);
+        return operations;
+    }
+
+    int[] getValue() {
+        return value;
+    }
+
+    Calculation getCalculation() {
+        return calculation;
+    }
 
 }

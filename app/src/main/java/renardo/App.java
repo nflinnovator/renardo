@@ -4,11 +4,13 @@
 package renardo;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+  public static void main(String[] args) {
+    int[] value = new int[] { 10, 25, 75 };
+    Suite suite = new Suite(value);
+    suite.calculate();
+    for (String each : suite.getCalculation().getOperations()) {
+      System.out.println(each);
     }
+  }
 }
