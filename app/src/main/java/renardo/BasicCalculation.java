@@ -25,9 +25,9 @@ class BasicCalculation extends Calculation {
     }
 
     private void calculate() {
-        results = new ArrayList<>();
+        result = new ArrayList<>();
         final Couple couple = new Couple(transformation.get(0), transformation.get(1));
-        results.addAll(couple.calculate());
+        result.addAll(couple.calculate());
     }
 
 }

@@ -6,11 +6,6 @@ package renardo;
 public class App {
 
   public static void main(String[] args) {
-    int[] value = new int[] { 10, 25, 75 };
-    Suite suite = new Suite(value);
-    suite.calculate();
-    for (String each : suite.getCalculation().getOperations()) {
-      System.out.println(each);
-    }
+   
   }
 }

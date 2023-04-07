@@ -27,13 +27,13 @@ class GenericCalculation extends Calculation {
         for (int i = 0; i < reducerValue.length; i++) {
             reducerValue[i] = suite[i];
         }
-        reducer = new Suite(reducerValue);
+        reducer = Suite.of(reducerValue);
     }
 
     private void reduce() {
-        results = new ArrayList<>();
+        result = new ArrayList<>();
         reducer.calculate();
-        results.addAll(reducer.getCalculation().getResults());
+        result.addAll(reducer.getResult());
     }
 
     private void factorize() {
@@ -42,7 +42,7 @@ class GenericCalculation extends Calculation {
 
     private void compose() {
         composition = new ArrayList<>();
-        List<Operand> reducerResults = reducer.getCalculation().getResults();
+        List<Operand> reducerResults = reducer.getResult();
         for (Operand each : reducerResults) {
             composition.add(new Couple(each, factor));
         }
@@ -50,7 +50,7 @@ class GenericCalculation extends Calculation {
 
     private void merge() {
         for (Couple each : composition) {
-            results.addAll(each.calculate());
+            result.addAll(each.calculate());
         }
     }
 
