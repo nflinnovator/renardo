@@ -6,8 +6,10 @@ package org.nfl.renardo.calculation;
 public class App {
 
 	public static void main(String[] args) {
-      Suite suite = Suite.from(1,2,3,4,5,6);
+      Suite suite = Suite.from(7,2,8,4,25,6);
+      final var now = System.currentTimeMillis();
       suite.calculate();
-      suite.getCalculation().getResult().forEach(System.out::println);
+      System.out.println("Calculation took : "+(System.currentTimeMillis() - now)+"ms");
+      //suite.showResults();
 	}
 }

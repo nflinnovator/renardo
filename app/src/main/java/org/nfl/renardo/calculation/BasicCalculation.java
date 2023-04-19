@@ -1,11 +1,6 @@
 package org.nfl.renardo.calculation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class BasicCalculation extends Calculation {
-
-	private List<Operand> transformation;
 
 	BasicCalculation(Suite suite) {
 		super(suite);
@@ -13,25 +8,21 @@ class BasicCalculation extends Calculation {
 
 	@Override
 	public void perform() {
+		makeOperation();
+		collectResult();
+	}
+
+	private void makeOperation() {
+		final var value = suite.getValue();
 		if (length == 1) {
-			result.add(new Operand(suite.getValue()[0]));
+			operation = new Operation(new Operand(value[0]));
 		} else {
-			transform();
-			calculate();
+			operation = new Operation(new Operand(value[0]), new Operand(value[1]));
 		}
 	}
 
-	private void transform() {
-		transformation = new ArrayList<>(length);
-		for (int i = 0; i < length; i++) {
-			transformation.add(new Operand(suite.getValue()[i]));
-		}
-	}
-
-	private void calculate() {
-		final Couple couple = new Couple(transformation.get(0), transformation.get(1));
-		couple.calculate();
-		result.addAll(couple.getResult());
+	private void collectResult() {
+		result.addAll(operation.calculate());
 	}
 
 }

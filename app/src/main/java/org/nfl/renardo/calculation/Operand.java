@@ -1,25 +1,27 @@
 package org.nfl.renardo.calculation;
 
+//record Operand (int value, String display) {}
+
 final class Operand {
 	private final int value;
-	private final String operation;
+	private final String display;
 
 	Operand(int value) {
 		this.value = value;
-		this.operation = "";
+		this.display = "";
 	}
 
-	Operand(int value, String operation) {
+	Operand(int value, String display) {
 		this.value = value;
-		this.operation = operation;
+		this.display = display;
 	}
 
-	public int getValue() {
+	int getValue() {
 		return value;
 	}
 
-	public String getOperation() {
-		return operation;
+	String getDisplay() {
+		return display;
 	}
 
 	@Override
@@ -33,17 +35,17 @@ final class Operand {
 		if (this.getClass() != o.getClass())
 			return false;
 		Operand operand = (Operand) o;
-		return value == operand.value && operation.equals(operand.operation);
+		return value == operand.value && display.equals(operand.display);
 	}
 
 	@Override
 	public int hashCode() {
-		return 7 * value + 9 * operation.hashCode();
+		return 7 * value + 9 * display.hashCode();
 	}
 
 	@Override
 	public String toString() {
-		return operation;
+		return display;
 	}
 
 }

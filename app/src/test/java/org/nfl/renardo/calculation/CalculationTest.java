@@ -17,18 +17,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @DisplayName("Renardo Calculation Test Case")
 class CalculationTest {
 
-	// Suite{a,b,c} = Suite{a,c,b} = Suite{b,c,a} = ...
-	// Calculation{a,b,c} != Calculation{a,c,b} != Calculation{b,c,a} = ...
-	// Suite calculations = Map<int [shiftedSuite],List<Calculation>>
-	// Calculation(int [shiftedSuite])
-	// Suite has a list of calculation if value == 2 list has BasicCalculation
-	// if value == 3 list contains one LinearCalculation
-	// if value > 3 list contains two GenericCalculations (linear and crossed)
-	// Suite is a composite
-	// Implement CrossCalculation Algorithm
-	// Test for a suite of 4 numbers
-	// Calculation Iterator
-
 	private Suite suite;
 
 	@Nested
@@ -82,7 +70,7 @@ class CalculationTest {
 		void calculation() {
 			suite.calculate();
 			assertEquals(1, suite.getNumberOfResults());
-			assertTrue(suite.calculationContains(new Operand(1)));
+			assertTrue(suite.containsValue(1));
 		}
 
 	}
@@ -140,10 +128,10 @@ class CalculationTest {
 		void calculation() {
 			suite.calculate();
 			assertEquals(4, suite.getNumberOfResults());
-			assertTrue(suite.calculationContains(new Operand(3, "3 = 2 + 1")));
-			assertTrue(suite.calculationContains(new Operand(1, "1 = 2 - 1")));
-			assertTrue(suite.calculationContains(new Operand(2, "2 = 2 x 1")));
-			assertTrue(suite.calculationContains(new Operand(2, "2 = 2 : 1")));
+			assertTrue(suite.containsDisplay("3 = 2 + 1"));
+			assertTrue(suite.containsDisplay("1 = 2 - 1"));
+			assertTrue(suite.containsDisplay("2 = 2 x 1"));
+			assertTrue(suite.containsDisplay("2 = 2 : 1"));
 		}
 
 		@Test
@@ -153,9 +141,9 @@ class CalculationTest {
 			suite = Suite.from(2, 2);
 			suite.calculate();
 			assertEquals(3, suite.getNumberOfResults());
-			assertTrue(suite.calculationContains(new Operand(4, "4 = 2 + 2")));
-			assertTrue(suite.calculationContains(new Operand(4, "4 = 2 x 2")));
-			assertTrue(suite.calculationContains(new Operand(1, "1 = 2 : 2")));
+			assertTrue(suite.containsDisplay("4 = 2 + 2"));
+			assertTrue(suite.containsDisplay("4 = 2 x 2"));
+			assertTrue(suite.containsDisplay("1 = 2 : 2"));
 		}
 
 		@Test
@@ -165,9 +153,9 @@ class CalculationTest {
 			suite = Suite.from(5, 2);
 			suite.calculate();
 			assertEquals(3, suite.getNumberOfResults());
-			assertTrue(suite.calculationContains(new Operand(7, "7 = 5 + 2")));
-			assertTrue(suite.calculationContains(new Operand(3, "3 = 5 - 2")));
-			assertTrue(suite.calculationContains(new Operand(10, "10 = 5 x 2")));
+			assertTrue(suite.containsDisplay("7 = 5 + 2"));
+			assertTrue(suite.containsDisplay("3 = 5 - 2"));
+			assertTrue(suite.containsDisplay("10 = 5 x 2"));
 		}
 
 		@Test
@@ -248,50 +236,50 @@ class CalculationTest {
 			assertTrue(calculation.hasShift(new Shift(1, 2, 3)));
 			assertTrue(calculation.hasShift(new Shift(2, 3, 1)));
 			assertTrue(calculation.hasShift(new Shift(1, 2, 3)));
-			calculation = new GenericCalculation(Suite.from(2,2,2));
+			calculation = new GenericCalculation(Suite.from(2, 2, 2));
 			calculation.perform();
 			assertEquals(1, calculation.getNumberOfShifts());
 			assertTrue(calculation.hasShift(new Shift(2, 2, 2)));
 		}
-		
+
 		@Test
 		@DisplayName("Verify Shift equality")
 		@Order(6)
 		void shiftEquality() {
-			var shift = new Shift(1,2,3);
-			var anotherShift = new Shift(1,2,3);
+			var shift = new Shift(1, 2, 3);
+			var anotherShift = new Shift(1, 2, 3);
 			assertTrue(shift.equals(anotherShift));
-			anotherShift = new Shift(2,3,1);
+			anotherShift = new Shift(2, 3, 1);
 			assertFalse(shift.equals(anotherShift));
 		}
-		
+
 		@Test
 		@DisplayName("Verify Shift Decomposition")
 		@Order(7)
 		void shiftDecomposition() {
-			var shift = new Shift(1,2,3);
+			var shift = new Shift(1, 2, 3);
 			shift.calculate();
 			assertEquals(1, shift.getNumberOfDecompositions());
-			assertTrue(shift.hasDecomposition(new Decomposition(new int [] {1,2}, 3)));
+			assertTrue(shift.hasDecomposition(new Decomposition(new int[] { 1, 2 }, 3)));
 		}
-		
+
 		@Test
 		@DisplayName("Verify Suite calculation")
 		@Order(8)
 		void calculation() {
 			suite.calculate();
 			assertEquals(48, suite.getNumberOfResults());
-			assertTrue(suite.calculationContains(new Operand(3, "3 = 2 + 1")));
-			assertTrue(suite.calculationContains(new Operand(6, "6 = 3 x 2,2 = 2 x 1")));
-			assertTrue(suite.calculationContains(new Operand(9, "9 = 3 x 3,3 = 2 + 1")));
-			suite = Suite.from(2,2,2);
+			assertTrue(suite.containsDisplay("3 = 2 + 1"));
+			assertTrue(suite.containsDisplay("6 = 3 x 2,2 = 2 x 1"));
+			assertTrue(suite.containsDisplay("9 = 3 x 3,3 = 2 + 1"));
+			suite = Suite.from(2, 2, 2);
 			suite.calculate();
 			assertEquals(15, suite.getNumberOfResults());
-			assertTrue(suite.calculationContains(new Operand(4, "4 = 2 + 2")));
-			assertTrue(suite.calculationContains(new Operand(6, "6 = 4 + 2,4 = 2 + 2")));
-			assertTrue(suite.calculationContains(new Operand(8, "8 = 4 x 2,4 = 2 x 2")));
+			assertTrue(suite.containsDisplay("4 = 2 + 2"));
+			assertTrue(suite.containsDisplay("6 = 4 + 2,4 = 2 + 2"));
+			assertTrue(suite.containsDisplay("8 = 4 x 2,4 = 2 x 2"));
 		}
-		
+
 		/*
 		 * @Test
 		 * 

@@ -8,6 +8,7 @@ abstract class Calculation {
 	protected final Suite suite;
 	protected final int length;
 	protected Set<Operand> result;
+	protected Operation operation;
 
 	protected static final int BASE = 3;
 

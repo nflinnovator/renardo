@@ -1,6 +1,8 @@
 package org.nfl.renardo.calculation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 class Suite {
 	private final int[] value;
@@ -29,6 +31,60 @@ class Suite {
 		return false;
 	}
 
+	void showResults() {
+		calculation.getResult().forEach(System.out::println);
+	}
+
+	void showAllValues() {
+		for (Operand each : calculation.getResult()) {
+			System.out.println(each.getValue());
+		}
+	}
+
+	void showAllDisplays() {
+		for (Operand each : calculation.getResult()) {
+			System.out.println(each.getDisplay());
+		}
+	}
+
+	boolean containsValue(int value) {
+		for (Operand operand : calculation.getResult()) {
+			if (operand.getValue() == value) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void showNumberOfDisplaysForValue(int value) {
+		List<String> displays = new ArrayList<>();
+		for (Operand operand : calculation.getResult()) {
+			if (operand.getValue() == value) {
+				displays.add(operand.getDisplay());
+			}
+		}
+		System.out.println(displays.size());
+	}
+
+	boolean containsDisplay(String display) {
+		for (Operand operand : calculation.getResult()) {
+			if (operand.getDisplay().equals(display)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void ShowAllDisplaysForValue(int value) {
+		List<String> displays = new ArrayList<>();
+		for (Operand operand : calculation.getResult()) {
+			if (operand.getValue() == value) {
+				displays.add(operand.getDisplay());
+			}
+		}
+		displays.forEach(System.out::println);
+	}
+
 	int[] getValue() {
 		return value;
 	}
@@ -39,10 +95,6 @@ class Suite {
 
 	int getNumberOfResults() {
 		return calculation.getResult().size();
-	}
-	
-	boolean calculationContains(Operand element) {
-		return calculation.getResult().contains(element);
 	}
 
 	@Override

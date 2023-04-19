@@ -11,7 +11,7 @@ class Decomposition {
 	private final int[] reducer;
 	private final int[] factor;
 	private Map<int[], Calculation> calculations;
-	private Set<Couple> composition;
+	private Set<Operation> composition;
 	private Set<Operand> result;
 
 	Decomposition(int[] reducer, int... factor) {
@@ -49,15 +49,14 @@ class Decomposition {
 	private void compose() {
 		for (Operand reductionOperand : calculations.get(reducer).getResult()) {
 			for (Operand factorizationOperand : calculations.get(factor).getResult()) {
-				composition.add(new Couple(reductionOperand, factorizationOperand));
+				composition.add(new Operation(reductionOperand, factorizationOperand));
 			}
 		}
 	}
 
 	private void collect() {
-		for (Couple couple : composition) {
-			couple.calculate();
-			result.addAll(couple.getResult());
+		for (Operation operation : composition) {
+			result.addAll(operation.calculate());
 		}
 	}
 
